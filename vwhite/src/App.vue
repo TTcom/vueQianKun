@@ -1,6 +1,8 @@
 <template>
   <div class="App">
     <div>vwhite</div>
+    <div>{{ a }}</div>
+    <div>{{ b }}</div>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -8,7 +10,16 @@
     <router-view />
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      a: 123,
+      b: "abcdefg",
+    };
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -5,11 +5,26 @@
       <router-link to="/about">About</router-link>
     </div> -->
   <!-- <router-view /> -->
+  <div>
+    <button type="button" @click="goVwhite">vwhite</button>
+    <button type="button" @click="goVblack">vblack</button>
+    <section id="frame" />
+  </div>
 
-  <section id="frame" />
   <!-- </div> -->
 </template>
-
+<script>
+export default {
+  methods: {
+    goVwhite() {
+      window.history.replaceState({}, null, "/white");
+    },
+    goVblack() {
+      window.history.replaceState({}, null, "/black");
+    },
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
