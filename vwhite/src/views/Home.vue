@@ -14,5 +14,8 @@ export default {
   components: {
     HelloWorld,
   },
+  created() {
+    console.log("vwhite home created");
+  },
 };
 </script>

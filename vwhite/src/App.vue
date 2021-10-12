@@ -3,6 +3,7 @@
     <div>vwhite</div>
     <div>{{ a }}</div>
     <div>{{ b }}</div>
+    <button type="button" @click="goSendmsg">sendmsg</button>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -11,12 +12,27 @@
   </div>
 </template>
 <script>
+import actions from "@/utils/actions";
 export default {
   data() {
     return {
       a: 123,
       b: "abcdefg",
     };
+  },
+  methods: {
+    goSendmsg() {
+      //对于state 会做第一层的校验 只有是初始化的有的属性才允许被修改
+      // actions.setGlobalState(state)
+      actions.setGlobalState({ globalToken: "vwhite setGlobalState" });
+    },
+  },
+  mounted() {
+    actions.onGlobalStateChange((state, prevState) => {
+      // state: 变更后的状态; prev 变更前的状态
+      console.log("通信状态发生改变state：", state);
+      console.log("通信状态发生改变prevState：", prevState);
+    }, true);
   },
 };
 </script>

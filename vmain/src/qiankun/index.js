@@ -4,9 +4,14 @@ import {
   // setDefaultMountApp,
   // prefetchApps,
   runAfterFirstMounted,
+  initGlobalState,
   start,
 } from "qiankun";
 
+const state = {};
+const actions = initGlobalState(state); //应用之间通信
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 // 子应用注册信息
 import apps from "./apps.js";
 
@@ -16,31 +21,33 @@ const startQK = (params, cb = () => {}) => {
    * 第一个参数 - 子应用的注册信息
    * 第二个参数 - 全局生命周期钩子
    */
-  let isLoadedSub = false;
+  // let isLoadedSub = false;
   registerMicroApps(apps, {
     // qiankun 生命周期钩子 - 加载前
     beforeLoad: (app) => {
       // 加载子应用前，加载进度条
-      isLoadedSub = true;
+      NProgress.start();
+      // isLoadedSub = true;
       console.log("before load", app.name);
       return Promise.resolve();
     },
     // qiankun 生命周期钩子 - 挂载后
     afterMount: (app) => {
       // 加载子应用前，进度条加载完成
-      isLoadedSub = true;
+      // isLoadedSub = true;
+      NProgress.done();
       console.log("after mount", app.name);
       return Promise.resolve();
     },
     afterUnmount: (app) => {
-      isLoadedSub = false;
+      // isLoadedSub = false;
       // 加载子应用前，进度条加载完成
       console.log("after unmount", app.name);
       setTimeout(() => {
-        console.log("isLoadedSub = " + isLoadedSub);
-        if (!isLoadedSub) {
-          cb && cb();
-        }
+        // console.log("isLoadedSub = " + isLoadedSub);
+        // if (!isLoadedSub) {
+        cb && cb();
+        // }
       }, 200);
       return Promise.resolve();
     },
@@ -67,3 +74,4 @@ const startQK = (params, cb = () => {}) => {
   start(params);
 };
 export default startQK;
+export { actions };

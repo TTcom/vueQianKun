@@ -3,6 +3,7 @@ import App from "./App.vue";
 import VueRouter from "vue-router";
 import routerConfig from "./router";
 import store from "./store";
+import actions from "./utils/actions";
 import "./public-path";
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
@@ -13,12 +14,19 @@ const packageName = require("../package.json").name;
 let instance = null;
 let router = null;
 
-function render() {
+function render(props) {
   // if (props) {
   // 注入 actions 实例
   // actions.setActions(props)
   // }
-
+  if (props) {
+    actions.setActions(props);
+    // props.onGlobalStateChange((state, prevState) => {
+    //   // state: 变更后的状态; prev 变更前的状态
+    //   console.log("通信状态发生改变：", state, prevState);
+    // }, true); //第二位参数置为true，这样微应用一启动的时候，我们马上就可以看到刚刚设置的
+  }
+  console.log("子应用render的参数", props);
   router = new VueRouter({
     // 区分子应用方式独立挂载的时候前面加sub
     base: window.__POWERED_BY_QIANKUN__
@@ -55,9 +63,9 @@ export async function bootstrap() {
   console.log("vue app bootstraped");
 }
 
-export async function mount() {
+export async function mount(props) {
   console.log("mount12312");
-  render();
+  render(props);
 }
 
 /**
